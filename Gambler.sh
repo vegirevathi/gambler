@@ -84,3 +84,15 @@ function luckyAndUnluckyDay()
 	done | sort -n | head -1
 }
 luckyAndUnluckyDay
+
+function conditionForContinuation()
+{
+	computeCashForMonth
+	if [ $profitAmount -gt 0 ]
+	then
+		echo "continue for next month"
+	else
+		echo "Stop it for this month"
+	fi
+}
+conditionForContinuation

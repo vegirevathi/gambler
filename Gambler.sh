@@ -31,19 +31,23 @@ dailyCash
 
 function computeCashForMonth()
 {
-	monthlyCash=0
+	totalAmount=0
 	wins=0
 	lost=0
 	read -p "Number of days Gambler Wish to Play in a Month" Days
 	for (( i=1; i<=Days; i++ ))
 	do
 		dailyCash
-		 if [ $cash -gt $STAKE_PER_DAY ]
+		 if [ $cash -eq $maxLimit ]
          then
+				totalAmount=$(( totalAmount+maxLimit ))
+				dailyResult["Day"]=$totalAmount
             echo "Won for the day $i"
 				(( wins++ ))
 				
          else
+				totalAmount=$(( totalAmount-minLimit ))
+				dailyResult["Day"]=$totalAmount
             echo "Lost for the day $i"
             (( lost++ ))
     	fi
@@ -62,5 +66,21 @@ function computeCashForMonth()
 		echo "Amount lost at the end of the month is " $lostAmount
 	fi
 }
-computeCashForMonth
 
+
+function luckyAndUnluckyDay()
+{
+	computeCashForMonth
+	echo "For Luckiest Day"
+	for element in ${dailyResult[@]}
+	do
+		echo $element " : " ${dailyResult[@]}
+	done | sort -n | tail -1
+
+	echo "For Unluckiest Day"
+	for element in ${!dailyResult[@]}
+	do
+		echo $element " : " ${dailyResult[@]}
+	done | sort -n | head -1
+}
+luckyAndUnluckyDay

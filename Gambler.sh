@@ -28,3 +28,24 @@ function dailyCash()
 }
 dailyCash
 
+function computeCashForMonth()
+{
+	monthlyCash=0
+	read -p "Number of days Gambler Wish to Play in a Month" Days
+	for (( i=1; i<=Days; i++ ))
+	do
+		dailyCash
+		monthlyCash=$(( $monthlyCash+$cash ))
+	done
+	echo "Cash at the end of the month " $monthlyCash
+	monthlyInvest=$(( $STAKE_PER_DAY*$Days ))
+	if [ $monthlyCash -gt $monthlyInvest ]
+	then
+		profitAmount=$(( $monthlyCash-$monthlyInvest ))
+		echo "Amount won at the end of the month is " $profitAmount
+	else
+		lostAmount=$(( $monthlyInvest-$monthlyCash ))
+		echo "Amount lost at the end of the month is " $lostAmount
+	fi
+}
+computeCashForMonth
